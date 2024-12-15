@@ -392,7 +392,7 @@ void commandLine(int argc, char* argv[]) {
 void testAlgorithm(const std::string name, int number){
 	// Pass an array of pointers to functions
 	// Save result to file test_result.csv
-	const string filename = "test" + name + "_.csv";
+	const string filename = "test_" + name + ".csv";
 	ofstream output; output.open(filename);
 	if (!output.is_open()) {
 		cout << "Failed to open test_result.csv\n";
@@ -559,22 +559,20 @@ void Heapify(int* arr, int n, int i, long long& comp) {
 
 	// So sánh con trái
 	if (left < n) {
-		comp++; // Đếm so sánh left < n
 		if (arr[left] > arr[max]) {
-			comp++; // Đếm so sánh arr[left] > arr[max]
+			comp++; // Đếm so sánh giữa arr[left] và arr[max]
 			max = left;
 		}
 	}
 
 	// So sánh con phải
 	if (right < n) {
-		comp++; // Đếm so sánh right < n
 		if (arr[right] > arr[max]) {
-			comp++; // Đếm so sánh arr[right] > arr[max]
+			comp++; // Đếm so sánh giữa arr[right] và arr[max]
 			max = right;
 		}
 	}
-	comp++; // Đếm so sánh max != i
+
 	if (max != i) {
 		swap(arr[i], arr[max]);
 		Heapify(arr, n, max, comp); // Đệ quy tiếp tục
