@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <chrono>
 #include <string>
+#include <vector>
 using namespace std;
 
 int* loadArr(int& n, std::string file);
@@ -16,3 +17,4 @@ bool canConvertToInt(const char* text);
 int getOrder(const char* order);
 const char* getOrderName(int order);
 int* duplicateArr(int* arr, int n);
+

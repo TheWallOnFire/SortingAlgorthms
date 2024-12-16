@@ -3,32 +3,7 @@
 #include "utils.h"
 
 
-void getAlgorithm(const char* name, FuncPtr& algo)
-{
-	algo = NULL;
-	if (strcmp(name, "selection-sort") == 0) {
-		algo = selection_sort;
-	}
-	else if (strcmp(name, "quick-sort") == 0) {
-		algo = quick_sort;
-	}
-	else if (strcmp(name, "insertion-sort") == 0) {
-		algo = InsertionSort;
-	}
-	else if (strcmp(name, "bubble-sort") == 0) {
-		algo = BubbleSort;
-	}
-	else if (strcmp(name, "heap-sort") == 0) {
-		algo = HeapSort;
-	}
-	else if (strcmp(name, "merge-sort") == 0) {
-		algo = MergeSort;
-	}
-	else if (strcmp(name, "radix-sort") == 0) {
-		algo = RadixSort;
-	}
-}
-
+// Command Line Arguments function
 void command1(const char* algorithm, const char* given_input, const char* output_parameter)
 {
 	// Get function pointer
@@ -389,13 +364,15 @@ void commandLine(int argc, char* argv[]) {
 	}
 }
 
+
+// Testing algorithms
 void testAlgorithm(const std::string name, int number){
 	// Pass an array of pointers to functions
 	// Save result to file test_result.csv
 	const string filename = "test_" + name + ".csv";
 	ofstream output; output.open(filename);
 	if (!output.is_open()) {
-		cout << "Failed to open test_result.csv\n";
+		cout << "Failed to open" << filename << endl;
 		return;
 	}
 
@@ -456,8 +433,119 @@ void testAlgorithm(const std::string name, int number){
 	}
 	output.close();
 }
+void testAlgorithms(std::vector<std::string> name) {
+	// Pass an array of pointers to functions
+	// Save result to file test_result.csv
+	const string filename = "test_algorithms.csv";
+	ofstream output; output.open(filename);
+	if (!output.is_open()) {
+		cout << "Failed to open" << filename << endl;
+		return;
+	}
+
+	// Create dataset for testing
+	int data_order[] = { 0,1,2,3 };
+	int data_size[] = { 10000, 30000, 50000, 100000, 300000, 500000 };
+
+	// output << names of algorithms
+	output << "Time running in seconds and the number of comparisons of algorithm in many cases:\n";
+	output << "Algorithms: " << endl;
+	output << "Order, Size,";
+	for (string algorithm : name) {
+		output << algorithm << ",,";
+	}
+	output << "\n";
+
+	// Loop for each dataset
+	for (int order : data_order) {			// Data order
+		// output << "-------------------------------------------------------\n";
+		// output << "Dataset number : " << order << endl;
+
+		// Rows: size of dataset
+		for (int size : data_size) {			// Data size
+			output << getOrderName(order) << "," << size << ",";
+
+			// Create an array with Data Order S1 and Data Size S2
+			int* arr = new int[size]; // Create arr
+			GenerateData(arr, size, order);
+
+			for (string algorithm : name) {
+				int* temp = duplicateArr(arr, size);
+				FuncPtr algo = NULL; getAlgorithm(algorithm.c_str(), algo);
+				if (!algo) {
+					cout << "Can't find algorithm name:" << algorithm << endl;
+					continue;
+				}
+
+				// Take note of S1, S2, S3, running time and number of comparisons
+				long long comp = 0; int tie = 0;
+				// Sort the created array using the Sorting Algorithm S3
+
+					// Record start time
+				auto start = std::chrono::high_resolution_clock::now();
+
+				// Call the function
+				algo(temp, size, comp); // cout array inside algo
+
+				// Record end time
+				auto end = std::chrono::high_resolution_clock::now();
+
+				// Calculate elapsed time
+				auto timer = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+				float time = (float)(timer.count()) / 1'000'000.0;
+				// Cout and save result
+				cout << left << setw(15) << "Running time:" << setw(10) << time << "|"
+					<< left << setw(10) << "Comparisons: " << setw(10) << comp << endl;
+				output << time << "," << comp << ",";
+
+				delete[] temp;
+			}
+			output << "\n";
+			delete[] arr;
+		}
+	}
+	output.close();
+}
 
 
+// Get algorithm helper
+void getAlgorithm(const char* name, FuncPtr& algo)
+{
+	algo = NULL;
+	if (strcmp(name, "selection-sort") == 0) {
+		algo = selection_sort;
+	}
+	else if (strcmp(name, "quick-sort") == 0) {
+		algo = quick_sort;
+	}
+	else if (strcmp(name, "insertion-sort") == 0) {
+		algo = InsertionSort;
+	}
+	else if (strcmp(name, "bubble-sort") == 0) {
+		algo = BubbleSort;
+	}
+	else if (strcmp(name, "heap-sort") == 0) {
+		algo = HeapSort;
+	}
+	else if (strcmp(name, "merge-sort") == 0) {
+		algo = MergeSort;
+	}
+	else if (strcmp(name, "radix-sort") == 0) {
+		algo = RadixSort;
+	}
+	else if (strcmp(name, "shaker-sort") == 0) {
+		algo = ShakerSort;
+	}
+	else if (strcmp(name, "shell-sort") == 0) {
+		algo = ShellSort;
+	}
+	else if (strcmp(name, "counting-sort") == 0) {
+		algo = CountingSort;
+	}
+	else if (strcmp(name, "flash-sort") == 0) {
+		algo = FlashSort;
+	}
+}
 
 
 // Selection_sort
@@ -481,11 +569,11 @@ void selection_sort(int* arr, int n, long long& comp)
 // Quick sort
 int partition_1(int* arr, int l, int r, long long& comps)
 {
-	int pivot = arr[r];// chọn chốt là phần tử cuối bên phải
+	int pivot = (r + l) / 2;
 	int i = l - 1;
 	for (int j = l; j < r; j++)
 	{
-		if (arr[j] <= pivot)
+		if (arr[j] <= arr[pivot])
 		{
 			++i;
 			swap(arr[i], arr[j]);
@@ -497,7 +585,6 @@ int partition_1(int* arr, int l, int r, long long& comps)
 	swap(arr[i], arr[r]);//đưa chốt về giữa
 	return i;// trả về vị trí của chốt
 }
-
 void quick_sort_1(int* arr, int l, int r, long long& comps)
 {
 	if (l >= r)
@@ -506,11 +593,11 @@ void quick_sort_1(int* arr, int l, int r, long long& comps)
 	quick_sort_1(arr, l, p - 1, comps);
 	quick_sort_1(arr, p + 1, r, comps);
 }// lam voi phan hoach lomuto
-
 void quick_sort(int* arr, int n, long long& comps)
 {
 	quick_sort_1(arr, 0, n-1, comps);
 }
+
 
 // Insertion sort
 void InsertionSort(int* arr, int n, long long& comp) {
@@ -531,6 +618,7 @@ void InsertionSort(int* arr, int n, long long& comp) {
 
 }
 
+
 // Bubble sort
 void BubbleSort(int* arr, int n, long long& comp) {
 	comp = 0;
@@ -550,6 +638,7 @@ void BubbleSort(int* arr, int n, long long& comp) {
 			break;
 	}
 }
+
 
 // Heap sort
 void Heapify(int* arr, int n, int i, long long& comp) {
@@ -578,7 +667,6 @@ void Heapify(int* arr, int n, int i, long long& comp) {
 		Heapify(arr, n, max, comp); // Đệ quy tiếp tục
 	}
 }
-
 void HeapSort(int* arr, int n, long long& comp) {
 	// Xây dựng Max Heap từ mảng
 	for (int i = n / 2 - 1; i >= 0; i--) {
@@ -591,6 +679,7 @@ void HeapSort(int* arr, int n, long long& comp) {
 		Heapify(arr, i, 0, comp);  // Duy trì Max Heap sau khi swap
 	}
 }
+
 
 // Merge Sort
 void Merge(int* a, int left, int mid, int right, long long& comp) {
@@ -631,7 +720,6 @@ void Merge(int* a, int left, int mid, int right, long long& comp) {
 	delete[] L;
 	delete[] R;
 }
-
 void MergeSort(int* a, int left, int right, long long& comp) {
 	if (left >= right)
 		return;
@@ -640,7 +728,6 @@ void MergeSort(int* a, int left, int right, long long& comp) {
 	MergeSort(a, mid + 1, right, comp);
 	Merge(a, left, mid, right, comp);
 }
-
 void MergeSort(int* a, int n, long long& comp) {
 	MergeSort(a, 0, n-1, comp);
 }
@@ -667,7 +754,6 @@ void countingSort(int* arr, int n, int exp, long long& comp) {
 
 	delete[] output;
 }
-
 void RadixSort(int* arr, int n, long long& comp) {
 	comp = 0;
 
@@ -681,5 +767,157 @@ void RadixSort(int* arr, int n, long long& comp) {
 	// Loop for each char
 	for (int exp = 1; max / exp > 0; exp *= 10, comp++) {
 		countingSort(arr, n, exp, comp);
+	}
+}
+
+
+// Shaker sort
+void ShakerSort(int* arr, int n, long long & comp) {
+	int start = 0, end = n - 1;
+	bool swapped = true;
+	while (swapped) {
+		swapped = false;
+		for (int i = start; i < end; i++) {
+			comp++;
+			if (arr[i] > arr[i + 1]) {
+				swap(arr[i], arr[i + 1]);
+				swapped = true;
+			}
+		}
+		if (!swapped)
+			break;
+		--end;
+		swapped = false;
+		for (int i = end - 1; i >= start; i--) {
+			comp++;
+			if (arr[i] > arr[i + 1]) {
+				swap(arr[i], arr[i + 1]);
+				swapped = true;
+			}
+		}
+		++start;
+	}
+}
+
+
+// Shell Sort
+void ShellSort(int* arr, int n, long long & comp) {
+	// Bắt đầu với gap là n / 2 và giảm dần
+	for (int gap = 1; gap < n; gap = 2 * gap + 1) {
+		// Sắp xếp các phần tử với gap đã chọn
+		for (int i = gap; i < n; i++) {
+			// Lưu giá trị hiện tại
+			int temp = arr[i];
+			int j = i;
+			for (j = i; j >= gap && arr[j - gap] > temp; j = j - gap) {
+				comp++; // Đếm so sánh
+				arr[j] = arr[j - gap];
+			}
+
+			// Đặt phần tử temp vào đúng vị trí
+			arr[j] = temp;
+		}
+	}
+}
+
+
+// Counting sort
+void CountingSort(int* arr, int n, long long & comp)
+{
+	int maxVal = arr[0];
+	for (int i = 1; i < n; i++)
+	{
+		comp++;
+		if (arr[i] > maxVal)
+		{
+			maxVal = arr[i];
+		}
+	}
+	int* countArr = new int[maxVal + 1];
+	for (int i = 0; i <= maxVal; i++)
+	{
+		countArr[i] = 0;
+	}
+	for (int i = 0; i < n; i++)
+	{
+		countArr[arr[i]]++;
+	}
+	for (int i = 1; i <= maxVal; i++)
+	{
+		comp++;
+		countArr[i] += countArr[i - 1];
+	}
+	int* output = new int[n];
+	for (int i = n - 1; i >= 0; i--)
+	{
+		comp++;
+		output[countArr[arr[i]] - 1] = arr[i];
+		countArr[arr[i]]--;
+	}
+	for (int i = 0; i < n; i++)
+	{
+		arr[i] = output[i];
+	}
+	delete[] countArr;
+	delete[] output;
+}
+
+
+// Flash sort
+void FlashSort(int* arr, int n, long long & comp) {
+	if (!arr || n <= 0) {
+		cout << "Lỗi: Mảng không hợp lệ hoặc kích thước không hợp lệ." << endl;
+		return;
+	}
+
+	comp = 0; // Đếm số phép so sánh
+
+	// Tìm giá trị nhỏ nhất và lớn nhất
+	int minVal = arr[0], maxIdx = 0;
+	for (int i = 1; i < n; ++i) {
+		comp += 2;
+		if (arr[i] < minVal) minVal = arr[i];
+		if (arr[i] > arr[maxIdx]) maxIdx = i;
+	}
+
+	if (arr[maxIdx] == minVal) return; // Mảng đã được sắp xếp
+
+	int m = (int)(0.45 * n);
+	int* l = new int[m] {};
+
+	double c1 = (m - 1.0) / (arr[maxIdx] - minVal);
+	for (int i = 0; i < n; ++i) {
+		int k = (int)(c1 * (arr[i] - minVal));
+		++l[k];
+	}
+
+	for (int i = 1; i < m; ++i) {
+		l[i] += l[i - 1];
+	}
+
+	int i = 0, move = 0;
+	while (move < n - 1) {
+		while (i >= l[(int)(c1 * (arr[i] - minVal))]) ++i;
+		int flash = arr[i];
+		while (i != l[(int)(c1 * (flash - minVal))]) {
+			int k = (int)(c1 * (flash - minVal));
+			int pos = --l[k];
+			swap(flash, arr[pos]);
+			++move;
+			++comp;
+		}
+	}
+
+	delete[] l;
+
+	for (int i = 1; i < n; ++i) {
+		int key = arr[i], j = i - 1;
+		while (j >= 0 && arr[j] > key) {
+			arr[j + 1] = arr[j];
+			--j;
+			++comp;
+		}
+		arr[j + 1] = key;
+		++comp;
 	}
 }
