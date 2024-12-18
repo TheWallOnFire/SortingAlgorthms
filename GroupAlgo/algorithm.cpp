@@ -1,4 +1,4 @@
-﻿#include "algorithm.h"
+#include "algorithm.h"
 #include "generator.h"
 #include "utils.h"
 
@@ -84,7 +84,7 @@ void command2(const char* algorithm, const char* input_size,
 		cout << "Can't create arr!\n";
 		return;
 	}
-	saveArr(arr, n, "output.txt");
+	saveArr(arr, n, "input.txt");
 	cout << "-----------------------------------------\n";
 
 	// Running
@@ -132,8 +132,8 @@ void command3(const char* algorithm, const char* input_size, const char* output_
 	int n = stoi(input_size);
 	cout << "Input size: " << n << endl;
 
-	for (int i = 0; i < n; i++) {
-		cout << "Input order: " << getOrderName(i) << endl;
+	for (int i = 0; i < 4; i++) {
+		cout << "\nInput order: " << getOrderName(i) << endl;
 		int* arr = new int[n];
 		GenerateData(arr, n, i);
 		if (!arr) {
@@ -277,7 +277,7 @@ void command5(const char* algorithm_1, const char* algorithm_2,
 		cout << "Can't create arr!\n";
 		return;
 	}
-	saveArr(arr, n, "output.txt");
+	saveArr(arr, n, "input.txt");
 	cout << "-----------------------------------------\n";
 
 	// Running
@@ -320,7 +320,7 @@ void command5(const char* algorithm_1, const char* algorithm_2,
 
 void commandLine(int argc, char* argv[]) {
 	// Conditional
-	if (argv[1] == "-a") {
+	if (strcmp(argv[1],"-a") == 0) {
 		cout << "ALGORITHM MODE\n";
 		if (argc == 5) {
 			if (!canConvertToInt(argv[3])) {
@@ -342,7 +342,7 @@ void commandLine(int argc, char* argv[]) {
 			return;
 		}
 	}
-	else if (argv[1] == "-c") {
+	else if (strcmp(argv[1],"-c") == 0) {
 		cout << "COMPARE MODE\n";
 		if (argc == 5) {
 			// Command 4
