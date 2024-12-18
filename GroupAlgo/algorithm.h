@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <iostream>
 #include <vector>
@@ -46,9 +46,9 @@ void getAlgorithm(const char* name, FuncPtr& algo);
 
 //# Nhóm thuật toán 1: (7 cái) -> 23h59 8/12/2024
 //Selection Sort, Quick Sort->Quân
-void selection_sort(int* arr, int n, long long& comps);
+void SelectionSort(int* arr, int n, long long& comps);
 
-void quick_sort(int* arr, int n, long long& comps);
+void QuickSort(int* arr, int n, long long& comps);
 
 //Insertion Sort, Bubble Sort->Hòa
 void InsertionSort(int* arr, int n, long long& comps);
