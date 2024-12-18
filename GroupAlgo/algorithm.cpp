@@ -513,10 +513,10 @@ void getAlgorithm(const char* name, FuncPtr& algo)
 {
 	algo = NULL;
 	if (strcmp(name, "selection-sort") == 0) {
-		algo = selection_sort;
+		algo = SelectionSort;
 	}
 	else if (strcmp(name, "quick-sort") == 0) {
-		algo = quick_sort;
+		algo = QuickSort;
 	}
 	else if (strcmp(name, "insertion-sort") == 0) {
 		algo = InsertionSort;
@@ -549,7 +549,7 @@ void getAlgorithm(const char* name, FuncPtr& algo)
 
 
 // Selection_sort
-void selection_sort(int* arr, int n, long long& comp)
+void SelectionSort(int* arr, int n, long long& comp)
 {
 	for (int i = 0; i < n; i++)
 	{
@@ -593,7 +593,7 @@ void quick_sort_1(int* arr, int l, int r, long long& comps)
 	quick_sort_1(arr, l, p - 1, comps);
 	quick_sort_1(arr, p + 1, r, comps);
 }// lam voi phan hoach lomuto
-void quick_sort(int* arr, int n, long long& comps)
+void QuickSort(int* arr, int n, long long& comps)
 {
 	quick_sort_1(arr, 0, n-1, comps);
 }
