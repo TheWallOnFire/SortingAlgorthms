@@ -2,6 +2,8 @@
 #include "generator.h"
 #include "utils.h"
 
+const string DATA_FOLDER = "data/";
+
 
 // Command Line Arguments function
 void command1(const char* algorithm, const char* given_input, const char* output_parameter)

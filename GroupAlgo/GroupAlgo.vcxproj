@@ -18,6 +18,17 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\algorithm.cpp" />
+    <ClCompile Include="source\generator.cpp" />
+    <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\algorithm.h" />
+    <ClInclude Include="source\generator.h" />
+    <ClInclude Include="source\utils.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -126,17 +137,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="algorithm.cpp" />
-    <ClCompile Include="generator.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="utils.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="algorithm.h" />
-    <ClInclude Include="generator.h" />
-    <ClInclude Include="utils.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
