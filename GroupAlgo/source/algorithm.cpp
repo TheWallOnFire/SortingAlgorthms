@@ -810,25 +810,20 @@ void ShakerSort(int* arr, int n, long long & comp) {
 
 
 // Shell Sort
-void ShellSort(int* arr, int n, long long & comp) {
-	// Bắt đầu với gap là n / 2 và giảm dần
-	for (int gap = 1; gap < n; gap = 2 * gap + 1) {
-		// Sắp xếp các phần tử với gap đã chọn
+void ShellSort(int* arr, int n, long long& comp){
+	// Bắt đầu với gap giảm dần
+	for (int gap = n / 2; gap > 0; gap /= 2) {
 		for (int i = gap; i < n; i++) {
-			// Lưu giá trị hiện tại
 			int temp = arr[i];
-			int j = i;
-			for (j = i; j >= gap && arr[j - gap] > temp; j = j - gap) {
-				comp++; // Đếm so sánh
+			int j;
+			for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
+				comp++;  // Đếm số lần so sánh
 				arr[j] = arr[j - gap];
 			}
-
-			// Đặt phần tử temp vào đúng vị trí
 			arr[j] = temp;
 		}
 	}
 }
-
 
 // Counting sort
 void CountingSort(int* arr, int n, long long & comp)
