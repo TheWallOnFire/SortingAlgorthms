@@ -3,6 +3,7 @@
 #include "utils.h"
 
 const string DATA_FOLDER = "data/";
+const string OUPTUT = "output.txt";
 
 
 // Command Line Arguments function
@@ -569,23 +570,29 @@ void SelectionSort(int* arr, int n, long long& comp)
 
 
 // Quick sort
-int partition_1(int* arr, int l, int r, long long& comps)
-{
-	int pivot = (r + l) / 2;
-	int i = l - 1;
-	for (int j = l; j < r; j++)
-	{
-		if (arr[j] <= arr[pivot])
-		{
-			++i;
-			swap(arr[i], arr[j]);
-		}
+int partition_1(int* arr, int l, int r, long long& comps) {
+	// Chọn pivot là phần tử giữa
+	int pivotIndex = (l + r) / 2;
+	int pivotValue = arr[pivotIndex];
 
+	// Đưa pivot về cuối mảng
+	swap(arr[pivotIndex], arr[r]);
+
+	int storeIndex = l;
+
+	// Duyệt qua mảng và hoán đổi các phần tử nhỏ hơn pivot
+	for (int i = l; i < r; i++) {
+		if (arr[i] <= pivotValue) {
+			swap(arr[i], arr[storeIndex]);
+			storeIndex++;
+		}
 		comps++;
 	}
-	++i;
-	swap(arr[i], arr[r]);//đưa chốt về giữa
-	return i;// trả về vị trí của chốt
+
+	// Đưa pivot về đúng vị trí
+	swap(arr[storeIndex], arr[r]);
+
+	return storeIndex;
 }
 void quick_sort_1(int* arr, int l, int r, long long& comps)
 {
@@ -594,10 +601,10 @@ void quick_sort_1(int* arr, int l, int r, long long& comps)
 	int p = partition_1(arr, l, r, comps);
 	quick_sort_1(arr, l, p - 1, comps);
 	quick_sort_1(arr, p + 1, r, comps);
-}// lam voi phan hoach lomuto
+}
 void QuickSort(int* arr, int n, long long& comps)
 {
-	quick_sort_1(arr, 0, n-1, comps);
+	quick_sort_1(arr, 0, n - 1, comps);
 }
 
 
