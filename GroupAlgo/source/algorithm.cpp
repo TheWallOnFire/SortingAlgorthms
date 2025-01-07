@@ -812,12 +812,11 @@ void ShakerSort(int* arr, int n, long long & comp) {
 // Shell Sort
 void ShellSort(int* arr, int n, long long& comp){
 	// Bắt đầu với gap giảm dần
-	for (int gap = n / 2; gap > 0; gap /= 2) {
-		for (int i = gap; i < n; i++) {
+	for (int gap = n / 2;  ++comp && gap > 0; gap /= 2) {
+		for (int i = gap;  ++comp && i < n; i++) {
 			int temp = arr[i];
 			int j;
-			for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
-				comp++;  // Đếm số lần so sánh
+			for (j = i; ++comp && j >= gap && arr[j - gap] > temp; j -= gap) {
 				arr[j] = arr[j - gap];
 			}
 			arr[j] = temp;
