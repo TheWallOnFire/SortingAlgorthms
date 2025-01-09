@@ -225,12 +225,12 @@ void command4(const char* algorithm_1, const char* algorithm_2, const char* give
 	float time2 = (float)(timer.count()) / 1'000'000.0;
 
 	// Output parameter
-	cout << left << setw(15) << "Running time:" 
-		 << right << setw(10) << time1 << " (second)" << " | " 
-		 << right << setw(10) << time2 << " (second)\n";
-	cout << left << setw(15) << "Comparisons:" 
-		 << right << setw(10) << comp1 << " (time)"	 << " | " 
-		 << right << setw(10) << comp2 << " (time)\n";
+	cout << left << setw(15) << "Running time:"
+		<< right << setw(10) << time1 << right << setw(10) << "(second)|"
+		<< left << setw(10) << time2 << right << setw(10) << " (second)\n";
+	cout << left << setw(15) << "Comparisons:"
+		<< right << setw(10) << comp1 << right << setw(10) << "(time)|"
+		<< left << setw(10) << comp2 << right << setw(10) << " (time)\n";
 
 	// Save to file
 	saveArr(arr, n, "output.txt");
@@ -306,12 +306,12 @@ void command5(const char* algorithm_1, const char* algorithm_2,
 	float time2 = (float)(timer.count()) / 1'000'000.0;
 
 	// Output parameter
-	cout << left << setw(15) << "Running time:"
-		<< right << setw(10) << time1 << " (second)" << " | "
-		<< right << setw(10) << time2 << " (second)\n";
-	cout << left << setw(15) << "Comparisons:"
-		<< right << setw(10) << comp1 << " (time)" << " | "
-		<< right << setw(10) << comp2 << " (time)\n";
+	cout << left << setw(15) << "Running time:" 
+		 << right << setw(10) << time1 << right << setw(10) << "(second)|"
+		 << left << setw(10) << time2 << right << setw(10) << " (second)\n";
+	cout << left << setw(15) << "Comparisons:" 
+		 << right << setw(10) << comp1 << right << setw(10) << "(time)|"
+		 << left << setw(10) << comp2 << right << setw(10) << " (time)\n";
 
 	// Save to file
 	saveArr(arr, n, "output.txt");
